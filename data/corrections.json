@@ -1,0 +1,35 @@
+{
+  "about": "Misprinted or suspicious booklet cells. 'printed' is what the booklet shows; 'value' is what the app uses. Found by tools/check_data.js (and the list in SPEC.md section 4). 'how' explains where the corrected value comes from.",
+  "cells": [
+    { "table": "A1.2", "at": { "p": 1500 }, "col": "uf", "printed": 743.16, "value": 843.16, "how": "digit misprint; h_f = u_f + p·v_f and the trend give 843.16" },
+    { "table": "A1.2", "at": { "p": 1500 }, "col": "ufg", "printed": 1851.3, "value": 1751.3, "how": "u_g − u_f = 2594.5 − 843.16" },
+    { "table": "A1.2", "at": { "p": 1500 }, "col": "hf", "printed": 744.89, "value": 844.89, "how": "digit misprint; u_f + p·v_f = 843.16 + 1500×0.001154" },
+    { "table": "A1.2", "at": { "p": 1500 }, "col": "hfg", "printed": 2047.3, "value": 1947.3, "how": "h_g − h_f = 2792.2 − 844.89" },
+
+    { "table": "A1.3", "p": 20, "at": { "T": 365.81 }, "col": "h", "printed": "######", "value": 2409.7, "how": "cell overflows in print; value wraps to the next line (also equals h_g at 20 MPa in A1.2)" },
+    { "table": "A1.3", "p": 1.8, "at": { "T": 1200 }, "col": "v", "printed": 0.776, "value": 0.3776, "how": "v ∝ 1/p between 1.6 and 2.0 MPa; likely a dropped digit (0.37760)" },
+    { "table": "A1.3", "p": 1.8, "at": { "T": 1200 }, "col": "h", "printed": 5860.5, "value": 5143.4, "how": "h = u + p·v = 4463.7 + 1800×0.3776" },
+    { "table": "A1.3", "p": 0.5, "at": { "T": 1300 }, "col": "s", "printed": 6.7749, "value": 9.7749, "how": "first digit misprint; trend in T and p gives ≈ 9.775" },
+    { "table": "A1.3", "p": 3.0, "at": { "T": 300 }, "col": "s", "printed": 0.6539, "value": 6.539, "how": "decimal point misplaced; neighbours 6.4448 / 6.6438" },
+    { "table": "A1.3", "p": 1.4, "at": { "T": 500 }, "col": "u", "printed": 3132.1, "value": 3121.1, "how": "breaks the trend across 1.2 / 1.6 MPa (3122.8 / 3119.5); swapped digits" },
+    { "table": "A1.3", "p": 1.4, "at": { "T": 500 }, "col": "h", "printed": 3485.0, "value": 3474.1, "how": "h = u + p·v = 3121.1 + 1400×0.2521" },
+
+    { "table": "A1.4", "p": 20, "at": { "T": 365.81 }, "col": "u", "printed": 1147.8, "value": 1785.6, "how": "first row repeats the 5 MPa saturation values; saturated liquid at 20 MPa from A1.2" },
+    { "table": "A1.4", "p": 20, "at": { "T": 365.81 }, "col": "h", "printed": 1158.0, "value": 1826.32, "how": "saturated liquid at 20 MPa from A1.2" },
+    { "table": "A1.4", "p": 20, "at": { "T": 365.81 }, "col": "s", "printed": 2.9202, "value": 4.0139, "how": "saturated liquid at 20 MPa from A1.2" },
+    { "table": "A1.4", "p": 20, "at": { "T": 240 }, "col": "s", "printed": 0.6674, "value": 2.6674, "how": "first digit missing; neighbours 2.4870 / 3.0248" },
+    { "table": "A1.4", "p": 20, "at": { "T": 260 }, "col": "s", "printed": 0.8459, "value": 2.8459, "how": "first digit missing" },
+
+    { "table": "A2.3", "p": 75, "at": { "T": -20 }, "col": "s", "printed": 6.3119, "value": 6.119, "how": "estimated: breaks the trend in T (6.2028 at −10 °C) and in p (6.3256 / 5.9695 at 50 / 100 kPa)" },
+    { "table": "A2.3", "p": 1600, "at": { "T": 60 }, "col": "v", "printed": 0.895, "value": 0.0895, "how": "decimal point misplaced; neighbours 0.1042 / 0.0781 at 1400 / 1800 kPa" },
+    { "table": "A2.3", "p": 1600, "at": { "T": 60 }, "col": "u", "printed": 102.4, "value": 1391.2, "how": "u = h − p·v = 1534.4 − 1600×0.0895" },
+
+    { "table": "A3.1", "at": { "T": 35 }, "col": "vg", "printed": 0.02641, "value": 0.020669, "how": "estimated: breaks the trend between 30 and 40 °C (0.023508 / 0.018171)" },
+    { "table": "A3.1", "at": { "T": 35 }, "col": "vfg", "printed": 0.025624, "value": 0.019883, "how": "v_g − v_f with the estimated v_g" },
+    { "table": "A3.1", "at": { "T": 35 }, "col": "ug", "printed": 178.911, "value": 183.778, "how": "u_g = h_g − p·v_g = 201.299 − 847.7×0.020669" },
+    { "table": "A3.1", "at": { "T": 35 }, "col": "ufg", "printed": 110.083, "value": 114.95, "how": "u_g − u_f" },
+
+    { "table": "A3.3", "p": 0.2, "at": { "T": 60 }, "col": "v", "printed": 0.11397, "value": 0.11138, "how": "estimated: breaks the trend (0.10771 / 0.115055 at 50 / 70 °C)" },
+    { "table": "A3.3", "p": 0.2, "at": { "T": 60 }, "col": "u", "printed": 204.941, "value": 205.46, "how": "u = h − p·v with the corrected v" }
+  ]
+}
