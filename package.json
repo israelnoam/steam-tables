@@ -1,0 +1,11 @@
+{
+  "name": "steam-tables",
+  "private": true,
+  "type": "module",
+  "description": "Frontend-only steam-table calculator. No dependencies; package.json only marks js files as ES modules for Node tests.",
+  "scripts": {
+    "parse": "node tools/parse_pdf.js",
+    "check": "node tools/check_data.js",
+    "test": "node tests/engine.test.js"
+  }
+}
