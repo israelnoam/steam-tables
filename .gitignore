@@ -1,0 +1,8 @@
+# The course booklet stays local (copyrighted source). Only the JSON derived from it is published.
+tables.pdf
+*.pdf
+tools/_raw/
+node_modules/
+.DS_Store
+Thumbs.db
+.vscode/
