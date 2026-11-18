@@ -19,7 +19,8 @@ A frontend-only web app for Thermodynamics 1 homework. Pick a substance (water, 
 | `index.html`, `css/`, `js/` | The site |
 | `js/engine/` | Physics: units, table lookup, interpolation, phase, solve (DOM-free, runs in Node) |
 | `data/` | One JSON file per booklet table |
-| `tools/` | Build-time only: `parse_pdf.js` (PDF → JSON), `check_data.js` (consistency checks) |
+| `tools/` | Build-time only: `parse_pdf.js` (PDF → JSON), `check_data.js` (consistency checks), `make_icons.js` (app icons), `serve.js` (local preview) |
+| `icons/`, `manifest.webmanifest`, `sw.js` | Home-screen icon and offline support |
 | `tests/` | `node tests/engine.test.js` |
 
 ## Rebuilding the data

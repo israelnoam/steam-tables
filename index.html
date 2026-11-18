@@ -7,6 +7,11 @@
   <meta name="description" content="מחשבון טבלאות קיטור לשיעורי בית בתרמודינמיקה 1 — כולל הפניה מדויקת לחוברת הטבלאות של הקורס.">
   <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="קיטור">
   <link rel="stylesheet" href="css/style.css">
   <script>
     // apply saved theme before first paint
@@ -44,7 +49,7 @@
         <div class="inputs" id="inputs"></div>
 
         <details class="helper" id="vm-helper" hidden>
-          <summary>יש לי <bdi>V</bdi> ו-<bdi>m</bdi> במקום <bdi>v</bdi></summary>
+          <summary><span>יש לי <bdi>V</bdi> ו-<bdi>m</bdi> במקום <bdi>v</bdi></span></summary>
           <div class="helper-body">
             <label class="field"><span class="field-label"><bdi>V</bdi> נפח</span>
               <span class="field-row"><input type="text" inputmode="decimal" id="vm-V" dir="ltr" placeholder="0.5"><span class="unit-fixed" dir="ltr">m³</span></span></label>
