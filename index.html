@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>טבלאות קיטור</title>
+  <meta name="description" content="מחשבון טבלאות קיטור לשיעורי בית בתרמודינמיקה 1 — כולל הפניה מדויקת לחוברת הטבלאות של הקורס.">
+  <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // apply saved theme before first paint
+    try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="brand"><span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="26" height="26"><path d="M4 27 C8 6, 24 6, 28 27" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="19" cy="16" r="2.6" fill="var(--accent)"/></svg>
+    </span>טבלאות קיטור</h1>
+    <div class="topbar-actions">
+      <button type="button" class="icon-btn" id="tour-btn" aria-label="סיור מודרך">?</button>
+      <button type="button" class="icon-btn" id="theme-btn" aria-label="מצב בהיר / כהה">
+        <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== Calculator ========== -->
+    <section id="screen-calc" class="screen" data-screen="calc">
+      <form id="calc-form" class="card" novalidate autocomplete="off">
+        <fieldset class="group" id="substance-group">
+          <legend>חומר</legend>
+          <div class="seg" role="radiogroup" id="substance-picker"></div>
+        </fieldset>
+
+        <fieldset class="group" id="pair-group">
+          <legend>שתי תכונות ידועות</legend>
+          <div class="pairs" role="radiogroup" id="pair-picker"></div>
+        </fieldset>
+
+        <div class="inputs" id="inputs"></div>
+
+        <details class="helper" id="vm-helper" hidden>
+          <summary>יש לי <bdi>V</bdi> ו-<bdi>m</bdi> במקום <bdi>v</bdi></summary>
+          <div class="helper-body">
+            <label class="field"><span class="field-label"><bdi>V</bdi> נפח</span>
+              <span class="field-row"><input type="text" inputmode="decimal" id="vm-V" dir="ltr" placeholder="0.5"><span class="unit-fixed" dir="ltr">m³</span></span></label>
+            <label class="field"><span class="field-label"><bdi>m</bdi> מסה</span>
+              <span class="field-row"><input type="text" inputmode="decimal" id="vm-m" dir="ltr" placeholder="2"><span class="unit-fixed" dir="ltr">kg</span></span></label>
+            <button type="button" class="btn secondary" id="vm-apply">חשב <bdi>v = V/m</bdi></button>
+            <p class="helper-out" id="vm-out" dir="auto"></p>
+          </div>
+        </details>
+
+        <button type="submit" class="btn primary" id="solve-btn">חשב</button>
+        <p class="error" id="calc-error" role="alert" hidden></p>
+      </form>
+
+      <article class="card result" id="result" hidden aria-live="polite">
+        <div class="phase" id="result-phase"></div>
+        <table class="props" id="result-table"></table>
+        <div class="warnings" id="result-warnings"></div>
+        <figure class="sketch" id="sketch"></figure>
+        <div class="result-actions">
+          <button type="button" class="btn secondary" id="copy-btn">העתק תוצאה</button>
+          <button type="button" class="btn secondary" id="goto-ref-btn">איפה בחוברת?</button>
+        </div>
+      </article>
+
+      <section class="card history" id="history" hidden>
+        <h2>חישובים אחרונים</h2>
+        <ol id="history-list"></ol>
+      </section>
+    </section>
+
+    <!-- ========== Booklet reference ========== -->
+    <section id="screen-ref" class="screen" data-screen="ref" hidden>
+      <div id="ref-content"></div>
+    </section>
+
+    <!-- ========== Tips ========== -->
+    <section id="screen-tips" class="screen" data-screen="tips" hidden>
+      <div id="tips-content"></div>
+    </section>
+
+    <footer class="foot">לשימוש בשיעורי בית בלבד — במבחן עובדים עם החוברת</footer>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="מסכים">
+    <button type="button" role="tab" data-tab="calc" aria-selected="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 7.5h7M8.5 12h1M12 12h1M15.5 12h0M8.5 16h1M12 16h1M15.5 16h0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>מחשבון</span></button>
+    <button type="button" role="tab" data-tab="ref" aria-selected="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>איפה בחוברת</span></button>
+    <button type="button" role="tab" data-tab="tips" aria-selected="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>טיפים</span></button>
+  </nav>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
