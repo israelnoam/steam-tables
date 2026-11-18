@@ -114,6 +114,35 @@ function run(name, input) {
   if (r) check('10kPa s=6.5 mixture x', r.state.phase.key === 'mixture' && near(r.state.x, (6.5 - 0.6493) / 7.5009, 1e-4), r.state.x);
 }
 
+// ---------------------------------------------------------------- NH3, R-12, R-134a (step 5)
+{
+  const r = run('NH3 p=200kPa x=1', { substance: 'NH3', given: { p: 200, x: 1 } });
+  if (r) {
+    const st = r.traces[0];
+    check('NH3 p given → inverse in A2.1', st.table === 'A2.1' && st.method === 'inverse' && st.noPTable === true, `${st.table} ${st.method}`);
+    check('NH3 200kPa Tsat ≈ -18.86', Math.abs(r.state.T - -18.86) < 0.05, r.state.T);
+  }
+  const r12 = run('R12 p=0.2MPa T=20', { substance: 'R12', given: { p: 200, T: 20 } });
+  if (r12) {
+    const blk = db.tables['A3.3'].blocks.find((b) => b.p === 0.2);
+    const row = blk.rows.find((x) => x[0] === 20);
+    check('R12 0.2MPa 20C superheated from A3.3', r12.state.phase.key === 'superheated' && near(r12.state.v, row[1]), r12.state.v);
+    check('R12 cites A 3.3 (page header), not A3.1', r12.traces.some((s) => s.tableName === 'A 3.3'));
+  }
+  const ra = run('R134a p=1bar x=0', { substance: 'R134a', given: { p: 100, x: 0 } });
+  if (ra) {
+    check('R134a 1 bar uses A-11 exact row', ra.traces[0].table === 'A11' && ra.traces[0].method === 'exact');
+    check('R134a 1 bar Tsat = -26.43', near(ra.state.T, -26.43), ra.state.T);
+    check('R134a vf = 0.7258e-3', near(ra.state.v, 0.0007258), ra.state.v);
+  }
+  const rb = run('R134a T=-10 x=0.5', { substance: 'R134a', given: { T: -10, x: 0.5 } });
+  if (rb) check('R134a T=-10 interpolated in A-10', rb.traces[0].table === 'A10' && rb.traces[0].method === 'linear');
+  const rc = run('R134a 0.5MPa 50C', { substance: 'R134a', given: { p: 500, T: 50 } });
+  if (rc) check('R134a 5 bar 50C superheated A-12', rc.state.phase.key === 'superheated' && rc.traces.some((s) => s.table === 'A12'));
+  const rd = run('NH3 1MPa 20C', { substance: 'NH3', given: { p: 1000, T: 20 } });
+  if (rd) check('NH3 liquid uses sat-liquid approximation', rd.state.phase.key === 'compressed' && rd.warnings.some((w) => w.kind === 'approx'));
+}
+
 // ---------------------------------------------------------------- round trip over every printed row
 const RT = { rel: 3e-4, abs: 2e-4 };
 for (const id of TABLE_IDS) {
