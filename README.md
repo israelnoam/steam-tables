@@ -2,7 +2,8 @@
 
 A frontend-only web app for Thermodynamics 1 homework. Pick a substance (water, NH₃, R-12, R-134a) and two known properties; the app returns the full state (T, p, v, u, h, s, x, phase) **and tells you exactly where to find every value in the printed course booklet** *Thermodynamics – Tables and Diagrams* — table, page, pressure block, rows, and the interpolation written out with numbers.
 
-- **Live site:** https://&lt;user&gt;.github.io/&lt;repo&gt;/ *(placeholder — filled in after publishing)*
+- **Live site:** https://israelnoam.github.io/steam-tables/
+- **Repo:** https://github.com/israelnoam/steam-tables
 - Course: Technion 00360714 (Generative AI tools), task "My first website".
 
 ## How it works
