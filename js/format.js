@@ -37,3 +37,31 @@ export function sym(name) {
   if (!m || !m[2] || /[^a-z]/.test(m[2])) return esc(name);
   return `${esc(m[1])}<sub>${esc(m[2])}</sub>`;
 }
+
+// ------------------------------------------------------------------ LaTeX (KaTeX, vendored in vendor/katex)
+
+/** Render LaTeX to HTML with the vendored KaTeX global. Falls back to plain LTR text if KaTeX did not load. */
+export function tex(src, display = false) {
+  const k = globalThis.katex;
+  if (!k) return `<bdi dir="ltr">${esc(src)}</bdi>`;
+  return k.renderToString(String(src), { displayMode: display, throwOnError: false, strict: false });
+}
+
+/** A formula box: each argument (or array item) is one displayed line. */
+export const texBlock = (...lines) => `<div class="formula">${lines.flat().map((l) => tex(l, true)).join('')}</div>`;
+
+/** Property symbol in LaTeX: v → v, vf → v_{f}, ufg → u_{fg}, v_f → v_{f}, p_sat → p_{\text{sat}}. */
+export function texSym(name) {
+  const m = /^([a-zA-Z])_?([a-z]*)$/.exec(String(name));
+  if (!m) return String(name);
+  if (!m[2]) return m[1];
+  return m[2].length > 2 ? `${m[1]}_{\\text{${m[2]}}}` : `${m[1]}_{${m[2]}}`;
+}
+
+/** Unit string as written in the app/data (kPa, m³/kg, °C, kJ/(kg·K) ...) → LaTeX, with a leading thin space. */
+export function texUnit(u) {
+  if (!u || u === '-') return '';
+  const s = String(u).trim();
+  if (s === '°C' || s === 'C') return '\\,{}^{\\circ}\\mathrm{C}';
+  return `\\,\\mathrm{${s.replace(/m3|m³/g, 'm^3').replace(/kJ\/kgK/, 'kJ/(kg\\cdot K)').replace(/·/g, '\\cdot ')}}`;
+}

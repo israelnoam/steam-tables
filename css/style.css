@@ -103,7 +103,7 @@ main { max-width: 760px; margin: 0 auto; padding: 12px 16px 24px; }
 .inputs { display: grid; gap: 10px; margin-bottom: 10px; }
 .field { display: grid; gap: 4px; }
 .field-label { font-weight: 600; }
-.field-label .sym { font-family: var(--mono); }
+.field-label .sym { font-weight: 400; }
 .field-row { display: flex; gap: 6px; direction: ltr; }
 .field-row input {
   flex: 1; min-width: 0; min-height: 48px; padding: 8px 12px; font-size: 1.05rem; border: 1px solid var(--border);
@@ -175,9 +175,14 @@ table.props tr.given td.val { color: var(--accent); font-weight: 700; }
 .where-chip { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
 .chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; font-size: .82rem; }
 .formula {
-  direction: ltr; text-align: left; font-family: var(--mono); font-size: .9rem; background: var(--surface-2); border-radius: 8px;
-  padding: 8px 10px; margin: 6px 0; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  direction: ltr; text-align: left; background: var(--surface-2); border-radius: 8px;
+  padding: 4px 10px; margin: 6px 0; overflow-x: auto; overflow-y: hidden;
 }
+.formula .katex-display { margin: 6px 0; text-align: left; }
+.formula .katex-display > .katex { text-align: left; }
+@media (max-width: 420px) { .formula .katex { font-size: .98em; } }
+/* KaTeX lays out inline boxes; keep them LTR inside the RTL page */
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; white-space: nowrap; }
 .printed-toggle { min-height: 40px; }
 .booklet {
   margin-top: 8px; overflow-x: auto; border: 1px solid #b9b2a3; border-radius: 4px; background: #fbf8f1; color: #1b1a17;

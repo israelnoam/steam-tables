@@ -2,7 +2,7 @@
 import { loadAll, SUBSTANCES } from './engine/data.js';
 import { solve, PAIRS } from './engine/solve.js';
 import { toInternal, UNITS, DEFAULT_UNIT } from './engine/units.js';
-import { esc, fmtProp, unitLabel } from './format.js';
+import { esc, fmtProp, unitLabel, tex, texSym, texUnit } from './format.js';
 import { tvSketch } from './sketch.js';
 import { renderReference } from './reference.js';
 import { renderTips } from './tips.js';
@@ -70,7 +70,7 @@ function renderSubstances() {
 }
 function renderPairs() {
   $('#pair-picker').innerHTML = PAIRS.map((p, i) =>
-    `<button type="button" role="radio" data-pair="${i}" aria-checked="${i === ui.pair}">${p[0]} + ${p[1]}<small>${PAIR_HINT[i]}</small></button>`).join('');
+    `<button type="button" role="radio" data-pair="${i}" aria-checked="${i === ui.pair}">${tex(`${p[0]} + ${p[1]}`)}<small>${PAIR_HINT[i]}</small></button>`).join('');
 }
 function unitFor(name) {
   if (ui.units[name] && FIELD[name].units.includes(ui.units[name])) return ui.units[name];
@@ -83,7 +83,7 @@ function renderInputs() {
     const unitCtl = f.units.length > 1
       ? `<select data-unit="${n}" aria-label="יחידות ${n}">${f.units.map((u) => `<option value="${u}" ${u === unitFor(n) ? 'selected' : ''}>${esc(unitLabel(n, u))}</option>`).join('')}</select>`
       : `<span class="unit-fixed">${esc(unitLabel(n, f.units[0])) || '—'}</span>`;
-    return `<label class="field"><span class="field-label"><bdi class="sym">${n}</bdi> ${f.label}</span>
+    return `<label class="field"><span class="field-label"><span class="sym">${tex(n)}</span> ${f.label}</span>
       <span class="field-row"><input type="text" inputmode="decimal" enterkeyhint="go" dir="ltr" data-field="${n}" value="${esc(ui.values[n] ?? '')}" aria-label="${n}">${unitCtl}</span></label>`;
   }).join('');
   $('#vm-helper').hidden = !pair.includes('v');
@@ -126,7 +126,7 @@ $('#vm-apply').addEventListener('click', () => {
   if (sel) { sel.value = 'm3/kg'; ui.units.v = 'm3/kg'; store.set('units', ui.units); }
   inp.value = String(+v.toPrecision(6));
   ui.vmNote = { V, m, v };
-  $('#vm-out').innerHTML = `<bdi dir="ltr">v = V/m = ${+V.toPrecision(6)} / ${+m.toPrecision(6)} = ${+v.toPrecision(6)} m³/kg</bdi>`;
+  $('#vm-out').innerHTML = tex(`v = \\dfrac{V}{m} = \\dfrac{${+V.toPrecision(6)}}{${+m.toPrecision(6)}} = ${+v.toPrecision(6)}${texUnit('m³/kg')}`);
 });
 
 // ------------------------------------------------------------------ solve
@@ -187,10 +187,10 @@ function renderResult() {
     const given = st.given.includes(n);
     const src = res.src[n];
     const link = given ? '<span class="badge">נתון</span>' : src !== undefined ? `<a href="#ref" data-step="${src}">מאיפה?</a>` : '';
-    return `<tr class="${given ? 'given' : ''}"><th scope="row"><bdi>${n}</bdi></th><td class="val">${val}</td><td class="unit">${esc(unitLabel(n, u))}</td><td class="src">${link}</td></tr>`;
+    return `<tr class="${given ? 'given' : ''}"><th scope="row">${tex(n)}</th><td class="val">${val}</td><td class="unit">${esc(unitLabel(n, u))}</td><td class="src">${link}</td></tr>`;
   }).join('')}</tbody>`;
   $('#result-warnings').innerHTML = res.warnings.map((w) => `<div class="note">${w.kind === 'corrected'
-    ? `בחוברת התא <bdi dir="ltr">${esc(w.col)}</bdi> בטבלה <bdi>${esc(w.table)}</bdi> מודפס כ-<bdi dir="ltr">${esc(w.printed)}</bdi>; האפליקציה משתמשת ב-<bdi dir="ltr">${esc(w.value)}</bdi>.`
+    ? `בחוברת התא ${tex(texSym(w.col))} בטבלה <bdi>${esc(w.table)}</bdi> מודפס כ-<bdi dir="ltr">${esc(w.printed)}</bdi>; האפליקציה משתמשת ב-<bdi dir="ltr">${esc(w.value)}</bdi>.`
     : esc(w.text)}</div>`).join('');
   $('#sketch').innerHTML = `${tvSketch(db, substance, st)}<figcaption>דיאגרמת <bdi>T–v</bdi>: הפעמון מהטבלה ונקודת המצב</figcaption>`;
 }
